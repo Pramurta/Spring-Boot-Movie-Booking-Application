@@ -16,12 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 @Document(collection = "availableShows")
 public class AvailableShow {
-    @Id
-    private String showId;
     private LocalDateTime fromTime;
     private LocalDateTime toTime;
     private String movieName;
     private String theatreName;
-    private String hallNumber;
+    private int hallNumber;
     private List<String> seatsAvailable;
 }

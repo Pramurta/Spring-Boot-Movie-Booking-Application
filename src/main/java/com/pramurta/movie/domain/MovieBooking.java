@@ -16,7 +16,6 @@ import java.util.List;
 @Document(collection = "movieBookings")
 public class MovieBooking {
     private String passportNumber;
-    @Id
     private String showId;
     private List<String> seatNumbers;
 }

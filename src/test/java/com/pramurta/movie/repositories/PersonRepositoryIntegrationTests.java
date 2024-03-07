@@ -33,4 +33,24 @@ public class PersonRepositoryIntegrationTests {
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(person);
     }
+
+    @Test
+    public void testThatPersonDetailsAreUpdated() {
+        Person person = TestDataUtil.createTestPerson();
+        personRepository.save(person);
+        person.setName("updated person");
+        personRepository.save(person);
+        Optional<Person> result = personRepository.findById("PN1");
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(person);
+    }
+
+    @Test
+    public void testThatPersonCanBeDeleted() {
+        Person person = TestDataUtil.createTestPerson();
+        personRepository.save(person);
+        personRepository.deleteById(person.getPassportNumber());
+        Optional<Person> result = personRepository.findById("PN1");
+        assertThat(result).isEmpty();
+    }
 }
