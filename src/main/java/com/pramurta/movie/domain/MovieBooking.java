@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
@@ -16,6 +17,6 @@ import java.util.List;
 @Document(collection = "movieBookings")
 public class MovieBooking {
     private String passportNumber;
-    private String showId;
+    private ObjectId showId;
     private List<String> seatNumbers;
 }

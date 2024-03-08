@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,8 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Document(collection = "movieHalls")
-@CompoundIndex(name = "movieHallIndex", def = "{'theatreName': 1, 'hallNumber': 1}")
 public class MovieHall {
+    @Id
+    private ObjectId id;
     private String hallNumber;
     private String theatreName;
     private List<MovieSeat> movieSeats;

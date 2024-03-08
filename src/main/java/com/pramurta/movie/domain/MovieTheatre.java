@@ -15,6 +15,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MovieTheatre {
     @Id
     private String location;
-
     private String movieTheatreName;
 }

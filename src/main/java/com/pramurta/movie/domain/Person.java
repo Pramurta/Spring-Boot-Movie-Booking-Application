@@ -16,8 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Person {
     @Id
     private String passportNumber;
-
     private String name;
-
     private String cardNumber;
 }
