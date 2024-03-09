@@ -32,7 +32,7 @@ public class PersonController {
         try {
             return new ResponseEntity<>(personService.createPerson(personPayload), HttpStatus.CREATED);
         } catch(RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
     }
 
@@ -40,5 +40,17 @@ public class PersonController {
     public ResponseEntity<Person> removePerson(@PathVariable("passportNumber") String passportNumber) {
         personService.removePerson(passportNumber);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping(path = "/persons/{passportNumber}")
+    public ResponseEntity<?> updatePersonDetails(@PathVariable("passportNumber") String passportNumber,
+                                                      @RequestBody Person updatePersonPayload) {
+        if(!personService.personExists(passportNumber)) {
+            return new ResponseEntity<>(
+                    String.format("Person with passport number %s doesn't exist",passportNumber),HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(personService.updatePersonDetails(updatePersonPayload),HttpStatus.OK);
+        }
     }
 }

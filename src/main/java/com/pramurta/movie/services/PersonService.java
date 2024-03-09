@@ -10,12 +10,15 @@ import java.util.Optional;
 public class PersonService {
     private final PersonRepository personRepository;
 
+    private static final String PERSON_NOT_FOUND_TEMPLATE = "Person with the passport number %s doesn't exist";
+
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
     public Person createPerson(Person person) {
         if(personExists(person.getPassportNumber())) {
-            throw new RuntimeException("The person with the passport number already exists!");
+            throw new RuntimeException(String.format("The person with the passport number %s already exists!"
+                    ,person.getPassportNumber()));
         }
         return personRepository.save(person);
     }
@@ -28,13 +31,11 @@ public class PersonService {
         return personRepository.existsById(passportNumber);
     }
 
-    public Person updatePersonDetails(String passportNumber, Person updatePersonPayload) {
-        if(!personExists(passportNumber)) {
-            throw new RuntimeException("Person with the passport number: "+passportNumber
-                    +" doesn't exist");
+    public Person updatePersonDetails(Person updatePersonPayload) {
+        if(!personExists(updatePersonPayload.getPassportNumber())) {
+            throw new RuntimeException(String.format(PERSON_NOT_FOUND_TEMPLATE,updatePersonPayload.getPassportNumber()));
         }
-        else {
-            Person existingPerson = personRepository.findById(passportNumber).get();
+            Person existingPerson = personRepository.findById(updatePersonPayload.getPassportNumber()).get();
             if(updatePersonPayload.getName()!=null) {
                 existingPerson.setName(updatePersonPayload.getName());
             }
@@ -42,16 +43,13 @@ public class PersonService {
                 existingPerson.setCardNumber(updatePersonPayload.getCardNumber());
             }
             return personRepository.save(existingPerson);
-        }
+
+    }
+    public void removePerson(String passportNumber) {
+        personRepository.deleteById(passportNumber);
     }
 
-    public void removePerson(String passportNumber) {
-        if(!personExists(passportNumber)) {
-            throw new RuntimeException("Person with the passport number: "+passportNumber
-            +" doesn't exist");
-        }
-        else {
-            personRepository.deleteById(passportNumber);
-        }
+    public void removeAllPersons() {
+        personRepository.deleteAll();
     }
 }
