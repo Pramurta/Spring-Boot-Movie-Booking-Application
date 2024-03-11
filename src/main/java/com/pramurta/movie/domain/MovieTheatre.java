@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @Document(collection = "movieTheatres")
 public class MovieTheatre {
-    @Id
     private String location;
+    @Id
     private String movieTheatreName;
 }

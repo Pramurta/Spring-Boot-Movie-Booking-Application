@@ -19,4 +19,5 @@ public class MovieBooking {
     private String passportNumber;
     private ObjectId showId;
     private List<String> seatNumbers;
+    private double amountPaid;
 }
