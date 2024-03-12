@@ -1,6 +1,6 @@
 package com.pramurta.movie.controllers;
 
-import com.pramurta.movie.domain.Movie;
+import com.pramurta.movie.domain.entities.Movie;
 import com.pramurta.movie.services.MovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

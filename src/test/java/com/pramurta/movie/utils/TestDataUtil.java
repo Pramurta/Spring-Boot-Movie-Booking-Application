@@ -1,8 +1,9 @@
 package com.pramurta.movie.utils;
 
-import com.pramurta.movie.domain.AvailableShow;
-import com.pramurta.movie.domain.Movie;
-import com.pramurta.movie.domain.Person;
+import com.pramurta.movie.domain.entities.AvailableShow;
+import com.pramurta.movie.domain.entities.Movie;
+import com.pramurta.movie.domain.entities.Person;
+import com.pramurta.movie.domain.models.MovieSeat;
 import org.assertj.core.util.Lists;
 
 import java.time.LocalDateTime;
@@ -33,7 +34,10 @@ public final class TestDataUtil {
                 .fromTime(LocalDateTime.now())
                 .toTime(LocalDateTime.now().plusHours(2))
                 .hallNumber(1)
-                .seatsAvailable(Lists.newArrayList("A1","A2","B1","B2"))
+                .seatsAvailable(Lists.newArrayList(MovieSeat.builder()
+                                .seatNumber("A1")
+                                .isAvailable(true)
+                        .build()))
                 .build();
     }
 }

@@ -1,12 +1,12 @@
 package com.pramurta.movie.controllers;
 
-import com.pramurta.movie.domain.AvailableShow;
+import com.pramurta.movie.domain.entities.AvailableShow;
+import com.pramurta.movie.domain.dtos.AvailableShowDto;
+import com.pramurta.movie.mappers.AvailableShowMapper;
 import com.pramurta.movie.services.AvailableShowService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,11 @@ import java.util.List;
 public class AvailableShowController {
     private final AvailableShowService availableShowService;
 
-    public AvailableShowController(AvailableShowService availableShowService) {
+    private final AvailableShowMapper availableShowMapper;
+
+    public AvailableShowController(AvailableShowService availableShowService, AvailableShowMapper availableShowMapper) {
         this.availableShowService = availableShowService;
+        this.availableShowMapper = availableShowMapper;
     }
 
     @GetMapping(path = "/availableShows")
@@ -26,50 +29,43 @@ public class AvailableShowController {
             @RequestParam(name = "fromTime", required = false) String fromTime,
             @RequestParam(name = "toTime", required = false) String toTime
     ) {
-        if(movieName!=null && theatreName==null && fromTime==null && toTime==null) {
-            try {
-                return new ResponseEntity<>(availableShowService.getShowsByMovieName(movieName), HttpStatus.OK);
+        try {
+            List<AvailableShow> availableShows;
+            if(movieName!=null && theatreName==null && fromTime==null && toTime==null) {
+                availableShows = availableShowService.getShowsByMovieName(movieName);
             }
-            catch (Exception e) {
-                return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            else if(movieName==null && theatreName!=null && fromTime==null && toTime==null) {
+                availableShows = availableShowService.getShowsByTheatreName(theatreName);
             }
-        }
-        else if(movieName==null && theatreName!=null && fromTime==null && toTime==null) {
-            try {
-                return new ResponseEntity<>(availableShowService.getShowsByTheatreName(theatreName), HttpStatus.OK);
+            else if(movieName==null && theatreName==null && fromTime!=null && toTime!=null) {
+                availableShows = availableShowService.getShowsWithinDateTimeRange(fromTime, toTime);
             }
-            catch (Exception e) {
-                return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            else if(movieName!=null && theatreName==null && fromTime!=null && toTime!=null) {
+                availableShows = availableShowService.getShowsByMovieNameAndDateTimeRange(movieName, fromTime, toTime);
             }
-        }
-        else if(movieName==null && theatreName==null && fromTime!=null && toTime!=null) {
-            try {
-                return new ResponseEntity<>(availableShowService.getShowsWithinDateTimeRange(fromTime, toTime), HttpStatus.OK);
+            else if(movieName==null && theatreName!=null && fromTime!=null && toTime!=null) {
+                availableShows = availableShowService.getShowsByTheatreNameAndDateTimeRange(theatreName, fromTime, toTime);
             }
-            catch (Exception e) {
-                return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            else {
+                availableShows = new ArrayList<>();
             }
-        }
-        else if(movieName!=null && theatreName==null && fromTime!=null && toTime!=null) {
-            try {
-                return new ResponseEntity<>(availableShowService.getShowsByMovieNameAndDateTimeRange(movieName, fromTime, toTime), HttpStatus.OK);
-            }
-            catch (Exception e) {
-                return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-            }
-        }
-        else if(movieName==null && theatreName!=null && fromTime!=null && toTime!=null) {
-            try {
-                return new ResponseEntity<>(availableShowService.getShowsByTheatreNameAndDateTimeRange(theatreName, fromTime, toTime), HttpStatus.OK);
-            }
-            catch (Exception e) {
-                return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-            }
-        }
-        else {
-            return new ResponseEntity<>(new ArrayList<>(),HttpStatus.OK);
+            List<AvailableShowDto> availableShowDtos = availableShows
+                    .stream()
+                    .map(availableShowMapper::mapToDto)
+                    .toList();
+            return new ResponseEntity<>(availableShowDtos,HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
-
+    @PostMapping(path = "/availableShows")
+    public ResponseEntity<?> createAShow(@RequestBody AvailableShowDto availableShowDto) {
+        try {
+            AvailableShow availableShow = availableShowMapper.mapToEntity(availableShowDto);
+            return new ResponseEntity<>(availableShowMapper.mapToDto(availableShowService.createAShow(availableShow)),HttpStatus.CREATED) ;
+        } catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package com.pramurta.movie.repositories;
 
-import com.pramurta.movie.domain.MovieTheatre;
+import com.pramurta.movie.domain.entities.MovieTheatre;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,5 +1,4 @@
-package com.pramurta.movie.domain;
-
+package com.pramurta.movie.domain.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,14 +7,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "persons")
-public class Person {
+@AllArgsConstructor
+@Document(collection = "movies")
+public class Movie {
     @Id
-    private String passportNumber;
-    private String name;
-    private String cardNumber;
+    private String movieName;
+    private List<String> actors;
+    private String director;
+    private String genre;
 }

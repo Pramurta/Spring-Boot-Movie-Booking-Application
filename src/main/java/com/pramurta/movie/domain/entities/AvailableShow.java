@@ -1,5 +1,6 @@
-package com.pramurta.movie.domain;
+package com.pramurta.movie.domain.entities;
 
+import com.pramurta.movie.domain.models.MovieSeat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,6 @@ public class AvailableShow {
     private String movieName;
     private String theatreName;
     private int hallNumber;
-    private List<String> seatsAvailable;
+    private List<MovieSeat> seatsAvailable;
     private double perTicketPrice;
 }

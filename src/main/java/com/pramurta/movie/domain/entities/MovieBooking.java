@@ -1,4 +1,4 @@
-package com.pramurta.movie.domain;
+package com.pramurta.movie.domain.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

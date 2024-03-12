@@ -1,6 +1,6 @@
 package com.pramurta.movie.services;
 
-import com.pramurta.movie.domain.Person;
+import com.pramurta.movie.domain.entities.Person;
 import com.pramurta.movie.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +46,7 @@ public class PersonService {
 
     }
     public void removePerson(String passportNumber) {
+
         personRepository.deleteById(passportNumber);
     }
 

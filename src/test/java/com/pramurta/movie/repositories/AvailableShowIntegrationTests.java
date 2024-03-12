@@ -1,6 +1,6 @@
 package com.pramurta.movie.repositories;
 
-import com.pramurta.movie.domain.AvailableShow;
+import com.pramurta.movie.domain.entities.AvailableShow;
 import com.pramurta.movie.utils.TestDataUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;

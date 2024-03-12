@@ -1,6 +1,6 @@
 package com.pramurta.movie.repositories;
 
-import com.pramurta.movie.domain.AvailableShow;
+import com.pramurta.movie.domain.entities.AvailableShow;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -8,9 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AvailableShowRepository extends MongoRepository<AvailableShow,String> {
-    List<AvailableShow> findByFromTimeAndToTimeAndMovieNameAndTheatreNameAndHallNumber(LocalDateTime fromTime,
+    List<AvailableShow> findByFromTimeAndToTimeAndTheatreNameAndHallNumber(LocalDateTime fromTime,
                                                                                        LocalDateTime toTime,
-                                                                                       String movieName,
                                                                                        String theatreName,
                                                                                        int hallNumber);
     List<AvailableShow> findShowsByMovieName(String movieName);

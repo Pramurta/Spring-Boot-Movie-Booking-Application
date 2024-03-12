@@ -1,7 +1,7 @@
 package com.pramurta.movie.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pramurta.movie.domain.Person;
+import com.pramurta.movie.domain.entities.Person;
 import com.pramurta.movie.services.PersonService;
 import com.pramurta.movie.utils.TestDataUtil;
 import org.junit.jupiter.api.Test;

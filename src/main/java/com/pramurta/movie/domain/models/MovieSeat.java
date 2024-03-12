@@ -1,4 +1,4 @@
-package com.pramurta.movie.domain;
+package com.pramurta.movie.domain.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document(collection = "movieSeats")
 public class MovieSeat {
-    @Id
     private String seatNumber;
-    private String seatType;
+    private boolean isAvailable;
 }

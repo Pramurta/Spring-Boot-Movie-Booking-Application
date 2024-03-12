@@ -1,6 +1,6 @@
 package com.pramurta.movie.repositories;
 
-import com.pramurta.movie.domain.Movie;
+import com.pramurta.movie.domain.entities.Movie;
 import com.pramurta.movie.utils.TestDataUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
