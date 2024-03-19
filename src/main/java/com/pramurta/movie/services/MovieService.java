@@ -37,6 +37,4 @@ public class MovieService {
         }
         movieRepository.deleteById(movieName);
     }
-
-
 }

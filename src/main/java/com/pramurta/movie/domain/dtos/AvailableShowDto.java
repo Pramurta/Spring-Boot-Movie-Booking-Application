@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +20,6 @@ public class AvailableShowDto {
     private String movieName;
     private String theatreName;
     private int hallNumber;
-    private List<MovieSeat> seatsAvailable;
+    private List<MovieSeat> seats;
     private double perTicketPrice;
 }

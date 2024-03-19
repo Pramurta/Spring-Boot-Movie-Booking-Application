@@ -2,6 +2,7 @@ package com.pramurta.movie.controllers;
 
 import com.pramurta.movie.domain.entities.AvailableShow;
 import com.pramurta.movie.domain.dtos.AvailableShowDto;
+import com.pramurta.movie.helpers.ResponseHelper;
 import com.pramurta.movie.mappers.AvailableShowMapper;
 import com.pramurta.movie.services.AvailableShowService;
 import org.springframework.http.HttpStatus;
@@ -53,9 +54,10 @@ public class AvailableShowController {
                     .stream()
                     .map(availableShowMapper::mapToDto)
                     .toList();
-            return new ResponseEntity<>(availableShowDtos,HttpStatus.OK);
+            return new ResponseEntity<>(ResponseHelper.constructSuccessfulAPIResponse(availableShowDtos), HttpStatus.OK);
         } catch(Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ResponseHelper.constructFailedAPIResponse(e.getMessage())
+                    ,HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -63,9 +65,26 @@ public class AvailableShowController {
     public ResponseEntity<?> createAShow(@RequestBody AvailableShowDto availableShowDto) {
         try {
             AvailableShow availableShow = availableShowMapper.mapToEntity(availableShowDto);
-            return new ResponseEntity<>(availableShowMapper.mapToDto(availableShowService.createAShow(availableShow)),HttpStatus.CREATED) ;
+            AvailableShowDto availableShowDtoCreated = availableShowMapper.mapToDto(availableShowService.createAShow(availableShow));
+            return new ResponseEntity<>(ResponseHelper.constructSuccessfulAPIResponse(availableShowDtoCreated),HttpStatus.CREATED);
         } catch(Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ResponseHelper.constructFailedAPIResponse(e.getMessage())
+                    ,HttpStatus.BAD_REQUEST);
         }
     }
+
+    @DeleteMapping(path = "/availableShows/{showID}")
+    public ResponseEntity<?> removeAShow(@PathVariable("showID") String showID) {
+        try {
+            availableShowService.removeAShow(showID);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(ResponseHelper.constructFailedAPIResponse(e.getMessage())
+                    ,HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+
 }

@@ -13,5 +13,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 public class MovieSeat {
     private String seatNumber;
-    private boolean isAvailable;
+    private Boolean isAvailable;
 }

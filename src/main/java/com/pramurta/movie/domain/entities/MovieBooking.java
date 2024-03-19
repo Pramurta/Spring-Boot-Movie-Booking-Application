@@ -16,6 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @Document(collection = "movieBookings")
 public class MovieBooking {
+    @Id
+    private ObjectId id;
     private String passportNumber;
     private ObjectId showId;
     private List<String> seatNumbers;

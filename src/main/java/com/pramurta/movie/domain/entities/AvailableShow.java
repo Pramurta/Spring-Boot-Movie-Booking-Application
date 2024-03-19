@@ -25,6 +25,6 @@ public class AvailableShow {
     private String movieName;
     private String theatreName;
     private int hallNumber;
-    private List<MovieSeat> seatsAvailable;
+    private List<MovieSeat> seats;
     private double perTicketPrice;
 }

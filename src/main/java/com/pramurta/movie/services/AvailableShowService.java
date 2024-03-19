@@ -1,9 +1,13 @@
 package com.pramurta.movie.services;
 
 import com.pramurta.movie.domain.entities.AvailableShow;
+import com.pramurta.movie.domain.entities.MovieBooking;
+import com.pramurta.movie.domain.models.MovieSeat;
 import com.pramurta.movie.repositories.AvailableShowRepository;
+import com.pramurta.movie.repositories.MovieBookingRepository;
 import com.pramurta.movie.repositories.MovieRepository;
 import com.pramurta.movie.repositories.MovieTheatreRepository;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,12 +19,14 @@ public class AvailableShowService {
     private final AvailableShowRepository availableShowRepository;
     private final MovieRepository movieRepository;
     private final MovieTheatreRepository movieTheatreRepository;
+    private final MovieBookingRepository movieBookingRepository;
 
     public AvailableShowService(AvailableShowRepository availableShowRepository, MovieRepository movieRepository,
-                                MovieTheatreRepository movieTheatreRepository) {
+                                MovieTheatreRepository movieTheatreRepository, MovieBookingRepository movieBookingRepository) {
         this.availableShowRepository = availableShowRepository;
         this.movieRepository = movieRepository;
         this.movieTheatreRepository = movieTheatreRepository;
+        this.movieBookingRepository = movieBookingRepository;
     }
 
     public List<AvailableShow> getShowsByMovieName(String movieName) throws Exception {
@@ -107,6 +113,60 @@ public class AvailableShowService {
                 theatreName,
                 hallNumber);
     }
+
+    public void setSeatsToBeNotAvailableAfterMovieBookingIsSuccessful(MovieBooking movieBookingRequest) {
+        if(!availableShowRepository.existsById(movieBookingRequest.getShowId().toString())) {
+            throw new RuntimeException(String.format("Available Show with ID: %s doesn't exist.",movieBookingRequest.getShowId().toString()));
+        }
+        AvailableShow availableShow = availableShowRepository.findById(movieBookingRequest.getShowId().toString()).get();
+        for(String seatNum: movieBookingRequest.getSeatNumbers()) {
+            for(MovieSeat seat: availableShow.getSeats()) {
+                if(seatNum.equals(seat.getSeatNumber())) {
+                    seat.setIsAvailable(false);
+                }
+            }
+        }
+        availableShowRepository.save(availableShow);
+    }
+
+    public void setSeatsToBeAvailableBeforeMovieBookingIsCancelled(String movieBookingId) {
+        MovieBooking movieBooking;
+        AvailableShow availableShow;
+        if(!movieBookingRepository.existsById(movieBookingId)) {
+            throw new RuntimeException(String.format("Movie booking with ID: %s doesn't exist.",movieBookingId));
+        }
+        else {
+            movieBooking = movieBookingRepository.findById(movieBookingId).get();
+        }
+        if(!availableShowRepository.existsById(movieBooking.getShowId().toString())) {
+            throw new RuntimeException(String.format("Available Show with ID: %s doesn't exist.",movieBookingId));
+        }
+        else {
+            availableShow = availableShowRepository.findById(movieBooking.getShowId().toString()).get();
+        }
+        for(String seatNum: movieBooking.getSeatNumbers()) {
+            for(MovieSeat seat: availableShow.getSeats()) {
+                if(seatNum.equals(seat.getSeatNumber())) {
+                    seat.setIsAvailable(true);
+                }
+            }
+        }
+        availableShowRepository.save(availableShow);
+    }
+
+    public void removeAShow(String showID) throws Exception{
+        if(!availableShowRepository.existsById(showID)) {
+            throw new Exception(String.format("Available Show with ID: %s doesn't exist.",showID));
+        }
+        List<MovieBooking> movieBookings = movieBookingRepository.findByShowId(new ObjectId(showID));
+        if(!movieBookings.isEmpty()) {
+            throw new Exception(String.format("There exists a movie booking with ID: %s for the showID: %s. " +
+                    "Cancel the movie booking first and then remove the show",movieBookings.get(0).getId(),showID));
+        }
+        availableShowRepository.deleteById(showID);
+    }
+
+
 
 
 }

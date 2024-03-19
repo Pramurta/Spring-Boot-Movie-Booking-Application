@@ -1,6 +1,7 @@
 package com.pramurta.movie.controllers;
 
 import com.pramurta.movie.domain.entities.Movie;
+import com.pramurta.movie.helpers.ResponseHelper;
 import com.pramurta.movie.services.MovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,10 @@ public class MovieController {
     @PostMapping(path = "/movies")
     public ResponseEntity<?> createMovie(@RequestBody Movie moviePayload) {
         try {
-            return new ResponseEntity<>(movieService.createMovie(moviePayload), HttpStatus.CREATED);
+            Movie movie = movieService.createMovie(moviePayload);
+            return new ResponseEntity<>(ResponseHelper.constructSuccessfulAPIResponse(movie), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ResponseHelper.constructFailedAPIResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
     @DeleteMapping(path = "/movies/{movieName}")
@@ -28,7 +30,7 @@ public class MovieController {
             movieService.removeMovie(movieName);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ResponseHelper.constructFailedAPIResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 @Component
 public class AvailableShowMapper implements Mapper<AvailableShow, AvailableShowDto> {
 
@@ -24,8 +25,8 @@ public class AvailableShowMapper implements Mapper<AvailableShow, AvailableShowD
         entity.setMovieName(availableShowDto.getMovieName());
         entity.setTheatreName(availableShowDto.getTheatreName());
         entity.setHallNumber(availableShowDto.getHallNumber());
-        entity.setSeatsAvailable(availableShowDto.getSeatsAvailable());
         entity.setPerTicketPrice(availableShowDto.getPerTicketPrice());
+        entity.setSeats(availableShowDto.getSeats());
 
         return entity;
     }
@@ -34,7 +35,6 @@ public class AvailableShowMapper implements Mapper<AvailableShow, AvailableShowD
         if (dateTimeString == null || dateTimeString.isEmpty()) {
             return null;
         }
-
         try {
             return LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } catch (Exception e) {
@@ -53,8 +53,8 @@ public class AvailableShowMapper implements Mapper<AvailableShow, AvailableShowD
         dto.setMovieName(availableShow.getMovieName());
         dto.setTheatreName(availableShow.getTheatreName());
         dto.setHallNumber(availableShow.getHallNumber());
-        dto.setSeatsAvailable(availableShow.getSeatsAvailable());
         dto.setPerTicketPrice(availableShow.getPerTicketPrice());
+        dto.setSeats(availableShow.getSeats());
 
         return dto;
     }

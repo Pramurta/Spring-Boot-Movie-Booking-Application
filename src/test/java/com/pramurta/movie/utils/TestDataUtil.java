@@ -1,8 +1,10 @@
 package com.pramurta.movie.utils;
 
+import com.pramurta.movie.domain.dtos.UpdatePersonDto;
 import com.pramurta.movie.domain.entities.AvailableShow;
 import com.pramurta.movie.domain.entities.Movie;
 import com.pramurta.movie.domain.entities.Person;
+import com.pramurta.movie.domain.enums.UserRole;
 import com.pramurta.movie.domain.models.MovieSeat;
 import org.assertj.core.util.Lists;
 
@@ -14,7 +16,8 @@ public final class TestDataUtil {
         return Person.builder()
                 .passportNumber("PN1")
                 .name("Person1")
-                .cardNumber("Card1")
+                .userRole(UserRole.CUSTOMER)
+                .password("123456")
                 .build();
     }
 
@@ -34,7 +37,7 @@ public final class TestDataUtil {
                 .fromTime(LocalDateTime.now())
                 .toTime(LocalDateTime.now().plusHours(2))
                 .hallNumber(1)
-                .seatsAvailable(Lists.newArrayList(MovieSeat.builder()
+                .seats(Lists.newArrayList(MovieSeat.builder()
                                 .seatNumber("A1")
                                 .isAvailable(true)
                         .build()))
