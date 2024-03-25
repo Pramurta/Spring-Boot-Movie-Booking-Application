@@ -16,12 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AvailableShowIntegrationTests {
+public class AvailableShowRepositoryIntegrationTests {
 
     private final AvailableShowRepository availableShowRepository;
 
     @Autowired
-    public AvailableShowIntegrationTests(AvailableShowRepository availableShowRepository) {
+    public AvailableShowRepositoryIntegrationTests(AvailableShowRepository availableShowRepository) {
         this.availableShowRepository = availableShowRepository;
     }
 

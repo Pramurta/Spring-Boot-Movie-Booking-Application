@@ -31,10 +31,17 @@ public class MovieService {
         if(movieExists) {
             Optional<AvailableShow> availableShow = availableShowRepository.findShowsByMovieName(movieName).stream().findFirst();
             if(availableShow.isPresent()) {
-                throw new Exception(String.format("There's a movie: %s playing in the movie theatre: %s. Hence, can't remove the theatre.",availableShow.get().getMovieName(),
+                throw new Exception(String.format("There's a movie: %s playing in the movie theatre: %s. Hence, can't remove the movie.",availableShow.get().getMovieName(),
                         availableShow.get().getTheatreName()));
             }
+            movieRepository.deleteById(movieName);
         }
-        movieRepository.deleteById(movieName);
+        else {
+            throw new Exception(String.format("Movie: [%s] doesn't exist",movieName));
+        }
+    }
+
+    public void removeAllMovies() {
+        movieRepository.deleteAll();
     }
 }

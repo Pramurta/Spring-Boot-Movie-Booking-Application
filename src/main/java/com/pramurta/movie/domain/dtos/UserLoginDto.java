@@ -5,15 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class PersonDto {
+public class UserLoginDto {
     private String passportNumber;
-    private String name;
-    private List<String> userRoles;
     private String password;
 }

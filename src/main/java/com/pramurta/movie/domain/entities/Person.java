@@ -10,6 +10,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
+import java.util.List;
+
+
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,6 +23,6 @@ public class Person {
     @Id
     private String passportNumber;
     private String name;
-    private UserRole userRole;
+    private List<UserRole> userRoles;
     private String password;
 }

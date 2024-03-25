@@ -1,6 +1,7 @@
 package com.pramurta.movie.services.validators;
 
 import com.pramurta.movie.domain.dtos.UpdatePersonDto;
+import com.pramurta.movie.domain.dtos.UserLoginDto;
 import com.pramurta.movie.domain.entities.Person;
 import com.pramurta.movie.repositories.PersonRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,7 +32,7 @@ public class PersonValidator {
             personValidationResult.setValidationMessage("Passport Number missing in payload");
             return personValidationResult;
         }
-        if(personPayload.getUserRole()==null) {
+        if(personPayload.getUserRoles()==null) {
             personValidationResult.setIsValid(false);
             personValidationResult.setValidationMessage("User role missing in payload");
             return personValidationResult;
@@ -76,7 +77,6 @@ public class PersonValidator {
                 personValidationResult.setIsValid(false);
                 personValidationResult.setValidationMessage("Old password doesn't match with the one in the database");
             }
-
             validatePassword(updatePersonPayload.getNewPassword(), personValidationResult);
         }
     }
@@ -90,6 +90,19 @@ public class PersonValidator {
             personValidationResult.setIsValid(false);
             personValidationResult.setValidationMessage("Password length must be at least 6 characters");
         }
+    }
+
+    public UserLoginDto validateLogin(UserLoginDto userLoginDto) throws Exception{
+        String passportNumber = userLoginDto.getPassportNumber();
+        String password = userLoginDto.getPassword();
+        if(!personRepository.existsById(passportNumber)) {
+            throw new Exception(String.format("Person with passport number: %s doesn't exist.",passportNumber));
+        }
+        Person person = personRepository.findById(passportNumber).get();
+        if(!passwordEncoder.matches(password,person.getPassword())) {
+            throw new Exception("Password provided is incorrect");
+        }
+        return userLoginDto;
     }
 
 

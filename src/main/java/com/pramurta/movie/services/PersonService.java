@@ -1,6 +1,7 @@
 package com.pramurta.movie.services;
 
 import com.pramurta.movie.domain.dtos.UpdatePersonDto;
+import com.pramurta.movie.domain.dtos.UserLoginDto;
 import com.pramurta.movie.domain.entities.Person;
 import com.pramurta.movie.repositories.MovieBookingRepository;
 import com.pramurta.movie.repositories.PersonRepository;
@@ -79,5 +80,9 @@ public class PersonService {
 
     public void removeAllPersons() {
         personRepository.deleteAll();
+    }
+
+    public UserLoginDto login(UserLoginDto userLoginDto) throws Exception {
+        return personValidator.validateLogin(userLoginDto);
     }
 }

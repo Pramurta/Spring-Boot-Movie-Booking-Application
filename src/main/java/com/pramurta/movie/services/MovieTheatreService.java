@@ -34,7 +34,10 @@ public class MovieTheatreService {
                 throw new Exception(String.format("There's a movie: %s playing in the movie theatre: %s. Hence, can't remove the theatre.",availableShow.get().getMovieName(),
                         availableShow.get().getTheatreName()));
             }
+            movieTheatreRepository.deleteById(movieTheatreName);
         }
-        movieTheatreRepository.deleteById(movieTheatreName);
+        else {
+            throw new Exception(String.format("%s theatre doesn't exist",movieTheatreName));
+        }
     }
 }

@@ -12,7 +12,7 @@ public class PersonMapper implements Mapper<Person, PersonDto>{
     public PersonDto mapToDto(Person person) {
         return PersonDto.builder()
                 .passportNumber(person.getPassportNumber())
-                .userRole(person.getUserRole().toString())
+                .userRoles(person.getUserRoles().stream().map(UserRole::toString).toList())
                 .name(person.getName())
                 .password(person.getPassword())
                 .build();
@@ -20,13 +20,11 @@ public class PersonMapper implements Mapper<Person, PersonDto>{
 
     @Override
     public Person mapToEntity(PersonDto personDto) {
-        UserRole userRole = UserRole.valueOf(personDto.getUserRole());
         return Person.builder()
                 .password(personDto.getPassword())
                 .name(personDto.getName())
                 .passportNumber(personDto.getPassportNumber())
-                .userRole(userRole)
+                .userRoles(personDto.getUserRoles().stream().map(UserRole::valueOf).toList())
                 .build();
-
     }
 }

@@ -1,6 +1,5 @@
 package com.pramurta.movie.utils;
 
-import com.pramurta.movie.domain.dtos.UpdatePersonDto;
 import com.pramurta.movie.domain.entities.AvailableShow;
 import com.pramurta.movie.domain.entities.Movie;
 import com.pramurta.movie.domain.entities.Person;
@@ -16,7 +15,7 @@ public final class TestDataUtil {
         return Person.builder()
                 .passportNumber("PN1")
                 .name("Person1")
-                .userRole(UserRole.CUSTOMER)
+                .userRoles(Lists.newArrayList(UserRole.CUSTOMER,UserRole.APP_ADMIN,UserRole.MOVIE_ADMIN,UserRole.THEATRE_ADMIN))
                 .password("123456")
                 .build();
     }

@@ -2,10 +2,8 @@ package com.pramurta.movie.helpers;
 
 import com.pramurta.movie.domain.responses.APIResponse;
 
-import java.util.HashMap;
-
 public final class ResponseHelper{
-    public static <T> APIResponse<T> constructSuccessfulAPIResponse(T responseObject) {
+    public static <T> APIResponse<T> constructSuccessResponse(T responseObject) {
         APIResponse<T> successfulApiResponse = new APIResponse<>();
         successfulApiResponse.setErrorMessage("");
         successfulApiResponse.setResult(responseObject);
@@ -13,7 +11,7 @@ public final class ResponseHelper{
         return successfulApiResponse;
     }
 
-    public static <T> APIResponse<T> constructFailedAPIResponse(String errorMessage) {
+    public static <T> APIResponse<T> constructFailureResponse(String errorMessage) {
         APIResponse<T> failedApiResponse = new APIResponse<>();
         failedApiResponse.setErrorMessage(errorMessage);
         failedApiResponse.setIsValid(false);
