@@ -2,6 +2,7 @@ package com.pramurta.movie.utils;
 
 import com.pramurta.movie.domain.entities.AvailableShow;
 import com.pramurta.movie.domain.entities.Movie;
+import com.pramurta.movie.domain.entities.MovieTheatre;
 import com.pramurta.movie.domain.entities.Person;
 import com.pramurta.movie.domain.enums.UserRole;
 import com.pramurta.movie.domain.models.MovieSeat;
@@ -29,11 +30,19 @@ public final class TestDataUtil {
                 .build();
     }
 
+    public static MovieTheatre createTestMovieTheatre() {
+        return MovieTheatre.builder()
+                .movieTheatreName("GV Vivo City")
+                .location("1 HarbourFront Walk, #02-30 VivoCity, Singapore 098585")
+                .hallNumbers(Lists.newArrayList(1,2,3,4,5,6))
+                .build();
+    }
+
     public static AvailableShow createShow() {
         return AvailableShow.builder()
-                .theatreName("GV Great World")
-                .movieName("Mission Impossible Part 2")
-                .fromTime(LocalDateTime.now())
+                .theatreName("GV Vivo City")
+                .movieName("Mission Impossible Part 1")
+                .fromTime(LocalDateTime.now().plusHours(1))
                 .toTime(LocalDateTime.now().plusHours(2))
                 .hallNumber(1)
                 .seats(Lists.newArrayList(MovieSeat.builder()

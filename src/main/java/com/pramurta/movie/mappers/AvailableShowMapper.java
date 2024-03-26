@@ -31,7 +31,7 @@ public class AvailableShowMapper implements Mapper<AvailableShow, AvailableShowD
         return entity;
     }
 
-    private LocalDateTime parseLocalDateTime(String dateTimeString) {
+    public LocalDateTime parseLocalDateTime(String dateTimeString) {
         if (dateTimeString == null || dateTimeString.isEmpty()) {
             return null;
         }

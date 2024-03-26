@@ -166,6 +166,10 @@ public class AvailableShowService {
         availableShowRepository.deleteById(showID);
     }
 
+    public void removeAllShows() {
+        availableShowRepository.deleteAll();
+    }
+
 
 
 
