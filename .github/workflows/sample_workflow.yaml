@@ -1,0 +1,35 @@
+name: sample workflow test
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  integration_tests:
+    name: Run Integration tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+
+      - name: Start local database
+        run: sudo service mongod start
+
+      - name: Wait for database to start
+        run: sleep 30
+
+      - name: Build and package Spring Boot app
+        run: ./mvnw clean package -DskipTests=true
+        working-directory: movie
+
+      - name: Run Integration Tests
+        run: |
+          # Run integration tests against the local database
+          ./mvnw verify -Pintegration-tests
+        working-directory: movie
