@@ -1,2 +1,2 @@
 # Spring-Boot-Movie-Booking-Application
-Sample readme comment
+Sample readme comment updated
