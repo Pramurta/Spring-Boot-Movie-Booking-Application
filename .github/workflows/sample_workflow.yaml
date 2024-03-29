@@ -1,35 +1,25 @@
-name: sample workflow test
+name: Check Branch Name
+
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  integration_tests:
-    name: Run Integration tests
+  check-branch-name:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
+      - name: Check out the code
         uses: actions/checkout@v2
 
-      - name: Setup JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '21'
+      - name: Get branch name
+        id: branch
+        run: echo "::set-output name=name::$(echo $GITHUB_HEAD_REF)"
 
-      - name: Start local database
-        run: sudo service mongod start
-
-      - name: Wait for database to start
-        run: sleep 30
-
-      - name: Build and package Spring Boot app
-        run: ./mvnw clean package -DskipTests=true
-        working-directory: movie
-
-      - name: Run Integration Tests
+      - name: Check if branch name is valid
         run: |
-          # Run integration tests against the local database
-          ./mvnw verify -Pintegration-tests
-        working-directory: movie
+          branch_name="${{ steps.branch.outputs.name }}"
+          if [[ ! "$branch_name" =~ ^(feature/|bug\ fix/) ]]; then
+            echo "Branch name is invalid. It must start with 'feature/' or 'bug fix/'."
+            exit 1
+          fi
