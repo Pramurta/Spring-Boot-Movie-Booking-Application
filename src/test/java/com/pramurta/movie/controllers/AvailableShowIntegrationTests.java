@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @SpringBootTest
@@ -63,8 +65,8 @@ public class AvailableShowIntegrationTests {
         movieTheatreService.createMovieTheatre(movieTheatre);
 
         AvailableShowDto availableShowDto = AvailableShowDto.builder()
-                .fromTime("2024-03-28 14:00")
-                .toTime("2024-03-28 15:00")
+                .fromTime(LocalDateTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .toTime(LocalDateTime.now().plusHours(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .movieName(movie.getMovieName())
                 .theatreName(movieTheatre.getMovieTheatreName())
                 .hallNumber(movieTheatre.getHallNumbers().getFirst())
