@@ -41,11 +41,12 @@ public class AvailableShowIntegrationTests {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public AvailableShowIntegrationTests(MockMvc mockMvc, AvailableShowService availableShowService, MovieService movieService, MovieTheatreService movieTheatreService, ObjectMapper objectMapper) {
+    public AvailableShowIntegrationTests(MockMvc mockMvc, AvailableShowService availableShowService, MovieService movieService, MovieTheatreService movieTheatreService, AvailableShowMapper availableShowMapper, ObjectMapper objectMapper) {
         this.mockMvc = mockMvc;
         this.availableShowService = availableShowService;
         this.movieService = movieService;
         this.movieTheatreService = movieTheatreService;
+        this.availableShowMapper = availableShowMapper;
         this.objectMapper = objectMapper;
         this.mockHttpSession = new MockHttpSession();
         mockHttpSession.setAttribute("username","PN1");
